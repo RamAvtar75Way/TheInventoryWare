@@ -5,6 +5,10 @@ A comprehensive, responsive, and modern inventory management dashboard built wit
 ![Project Status](https://img.shields.io/badge/status-active-success.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
+## 🎥 Video Submission
+
+[**Click here to watch the demo video**](https://drive.google.com/file/d/1gJa4qC_2E8uv3VnFzevCUv7M7ihvhsBq/view?usp=sharing)
+
 ## 🚀 Features
 
 -   **Dashboard Overview**: Real-time insights into total inventory, low stock items, and warehouse distribution.
