@@ -12,7 +12,6 @@ const GoogleLoginBtn = () => {
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             try {
-                // Fetch user info from Google
                 const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
                 });

@@ -9,11 +9,11 @@ interface Props {
     currentPage: number;
     totalPages: number;
     onPageChange: (page: number) => void;
-    // Selection props
     selectedIds?: Set<string>;
     onToggleSelect?: (id: string) => void;
     onToggleSelectAll?: () => void;
-    isAllSelected?: boolean; // Represents if "Select All" checkbox in header is checked (usually just current page)
+    isAllSelected?: boolean;
+    onEdit?: (product: Product) => void;
 }
 
 const ProductTable = ({
@@ -25,7 +25,8 @@ const ProductTable = ({
     selectedIds,
     onToggleSelect,
     onToggleSelectAll,
-    isAllSelected
+    isAllSelected,
+    onEdit
 }: Props) => {
     if (isLoading) {
         return <div className="p-10 text-center text-gray-500">Loading inventory...</div>;
@@ -34,12 +35,7 @@ const ProductTable = ({
     if (!products || products.length === 0) {
         return <div className="p-10 text-center text-gray-500">No products found</div>;
     }
-
-    // Check if all visible products are selected (for page-level "select all" visual state)
     const isPageSelected = products.every(p => selectedIds?.has(p.id)) && products.length > 0;
-
-    // If parent passes isAllSelected (true for "Select All Matching"), we prefer that, 
-    // OR we fallback to checking if every visible item is in selectedIds.
     const headerChecked = isAllSelected || isPageSelected;
 
     const getStatusBadge = (status: Product['status']) => {
@@ -52,7 +48,6 @@ const ProductTable = ({
                 return <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><XCircle className="w-3 h-3" /> Out of Stock</span>;
         }
     };
-
     return (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
@@ -113,7 +108,7 @@ const ProductTable = ({
                                             <Button
                                                 variant="ghost"
                                                 size="xs"
-                                                onClick={() => toast.success(`Editing ${product.name}`)}
+                                                onClick={() => onEdit?.(product)}
                                                 className="text-primary hover:text-primary-hover h-8 w-8 p-0"
                                             >
                                                 <Edit2 className="w-4 h-4" />
@@ -134,7 +129,6 @@ const ProductTable = ({
                     </tbody>
                 </table>
             </div>
-
             <div className="p-4 border-t border-gray-200 flex items-center justify-between">
                 <Button
                     variant="outline"

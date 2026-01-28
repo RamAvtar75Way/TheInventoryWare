@@ -16,35 +16,46 @@ export interface ProductFilters {
     warehouse?: string;
 }
 
+let localProducts = [...MOCK_PRODUCTS];
+
 export const inventoryService = {
-    getProducts: async (filters: ProductFilters = {}): Promise<ProductsResponse> => {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 500));
+    getProducts: async ({ page = 1, limit = 10, search, category, minPrice, maxPrice, warehouse }: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        category?: string;
+        minPrice?: number;
+        maxPrice?: number;
+        warehouse?: string;
+    }): Promise<{ products: Product[]; total: number; page: number; totalPages: number }> => {
+        await new Promise(resolve => setTimeout(resolve, 600)); // Simulate network latency
 
-        let filtered = [...MOCK_PRODUCTS];
+        let filtered = [...localProducts];
 
-        if (filters.search) {
-            const search = filters.search.toLowerCase();
+        if (search) {
+            const query = search.toLowerCase();
             filtered = filtered.filter(p =>
-                p.name.toLowerCase().includes(search) ||
-                p.sku.toLowerCase().includes(search)
+                p.name.toLowerCase().includes(query) ||
+                p.sku.toLowerCase().includes(query)
             );
         }
 
-        if (filters.category && filters.category !== 'All') {
-            filtered = filtered.filter(p => p.category === filters.category);
+        if (category && category !== 'All') {
+            filtered = filtered.filter(p => p.category === category);
         }
 
-        if (filters.status && filters.status !== 'All') {
-            filtered = filtered.filter(p => p.status === filters.status);
+        if (minPrice !== undefined) {
+            filtered = filtered.filter(p => p.price >= minPrice);
         }
 
-        if (filters.warehouse && filters.warehouse !== 'All') {
-            filtered = filtered.filter(p => p.warehouse === filters.warehouse);
+        if (maxPrice !== undefined) {
+            filtered = filtered.filter(p => p.price <= maxPrice);
         }
 
-        const page = filters.page || 1;
-        const limit = filters.limit || 10;
+        if (warehouse && warehouse !== 'All') {
+            filtered = filtered.filter(p => p.warehouse === warehouse);
+        }
+
         const total = filtered.length;
         const totalPages = Math.ceil(total / limit);
         const start = (page - 1) * limit;
@@ -64,6 +75,22 @@ export const inventoryService = {
     },
 
     getAllProducts: async (): Promise<Product[]> => {
-        return MOCK_PRODUCTS;
+        return localProducts;
+    },
+
+    addProduct: async (productData: Omit<Product, 'id'>): Promise<Product> => {
+        await new Promise(resolve => setTimeout(resolve, 800)); // Simulate write delay
+        const newProduct: Product = {
+            id: (Math.random() * 10000).toString(),
+            ...productData
+        };
+        localProducts = [newProduct, ...localProducts];
+        return newProduct;
+    },
+
+    updateProduct: async (product: Product): Promise<Product> => {
+        await new Promise(resolve => setTimeout(resolve, 800)); // Simulate write delay
+        localProducts = localProducts.map(p => p.id === product.id ? product : p);
+        return product;
     }
 };

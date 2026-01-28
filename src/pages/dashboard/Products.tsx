@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
+
 import Header from '../../components/layout/Header';
 import ProductTable from '../../components/inventory/ProductTable';
 import { Plus, Search, Filter, Smartphone, Shirt, Home, Car, Sparkles, Dumbbell, Layers, Download } from 'lucide-react';
 import { useProducts } from '../../hooks/inventory/useInventory';
 import Select, { components, type OptionProps, type SingleValueProps, type GroupBase, type SingleValue } from 'react-select';
 import { inventoryService } from '../../services/inventory.service';
+import Button from '../../components/ui/Button';
+import Modal from '../../components/ui/Modal';
+import ProductForm from '../../components/inventory/ProductForm';
+import FilterPanel from '../../components/inventory/FilterPanel';
+import type { Product } from '../../services/mockData';
 
 interface CategoryOptionType {
     value: string;
@@ -50,6 +55,11 @@ const CATEGORY_OPTIONS: CategoryOptionType[] = [
 const Products = () => {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+    const [advancedFilters, setAdvancedFilters] = useState<{ minPrice?: number; maxPrice?: number; warehouse?: string }>({});
+
     // Store the full option object for react-select, initialize with 'All'
     const [categoryOption, setCategoryOption] = useState<CategoryOptionType>(CATEGORY_OPTIONS[0]);
 
@@ -62,7 +72,8 @@ const Products = () => {
         page,
         limit: 10,
         search: searchQuery,
-        category: categoryOption.value
+        category: categoryOption.value,
+        ...advancedFilters
     });
     // ... (start of component continues)
 
@@ -246,7 +257,10 @@ const Products = () => {
                         />
                     </div>
 
-                    <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 bg-white">
+                    <button
+                        onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+                        className={`flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors ${isFiltersOpen ? 'bg-purple-50 border-purple-200 text-purple-700' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                    >
                         <Filter className="w-5 h-5" />
                         <span>More Filters</span>
                     </button>
@@ -262,39 +276,81 @@ const Products = () => {
                     )}
                 </div>
 
-                <button
-                    onClick={() => toast.success('Add Product modal would open here')}
-                    className="flex items-center justify-center gap-2 bg-[#6455c2] text-white px-4 py-2 rounded-lg hover:bg-[#5243b0] transition-colors whitespace-nowrap"
+                <Button
+                    onClick={() => {
+                        setSelectedProduct(null);
+                        setIsModalOpen(true);
+                    }}
+                    leftIcon={<Plus className="w-5 h-5" />}
                 >
-                    <Plus className="w-5 h-5" />
-                    <span>Add product</span>
-                </button>
+                    Add product
+                </Button>
+
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => {
+                        setIsModalOpen(false);
+                        setSelectedProduct(null);
+                    }}
+                    title={selectedProduct ? 'Edit Product' : 'Add New Product'}
+                >
+                    <ProductForm
+                        onSuccess={() => {
+                            setIsModalOpen(false);
+                            setSelectedProduct(null);
+                        }}
+                        onCancel={() => {
+                            setIsModalOpen(false);
+                            setSelectedProduct(null);
+                        }}
+                        initialData={selectedProduct}
+                    />
+                </Modal>
             </div>
 
-            {/* Bulk Selection Banners */}
-            {isPageFullySelected && !selectAllMatching && (data?.total || 0) > 10 && (
-                <div className="mt-4 p-3 bg-blue-50 text-blue-700 text-sm rounded-lg flex items-center justify-center gap-2">
-                    <span>All {data?.products.length} products on this page are selected.</span>
-                    <button
-                        onClick={handleSelectAllMatching}
-                        className="font-bold underline hover:text-blue-900"
-                    >
-                        Select all {data?.total} products matching current filter
-                    </button>
-                </div>
-            )}
+            {/* Advanced Filters Panel */}
+            <FilterPanel
+                isOpen={isFiltersOpen}
+                onClose={() => setIsFiltersOpen(false)}
+                onApply={(filters) => {
+                    setAdvancedFilters(filters);
+                    setPage(1);
+                }}
+                onReset={() => {
+                    setAdvancedFilters({});
+                    setPage(1);
+                }}
+                initialFilters={advancedFilters}
+            />
 
-            {selectAllMatching && (
-                <div className="mt-4 p-3 bg-blue-50 text-blue-700 text-sm rounded-lg flex items-center justify-center gap-2">
-                    <span>All {data?.total} products are selected.</span>
-                    <button
-                        onClick={() => { setSelectAllMatching(false); setSelectedIds(new Set()); }}
-                        className="font-bold underline hover:text-blue-900"
-                    >
-                        Clear selection
-                    </button>
-                </div>
-            )}
+            {/* Bulk Selection Banners */}
+            {
+                isPageFullySelected && !selectAllMatching && (data?.total || 0) > 10 && (
+                    <div className="mt-4 p-3 bg-blue-50 text-blue-700 text-sm rounded-lg flex items-center justify-center gap-2">
+                        <span>All {data?.products.length} products on this page are selected.</span>
+                        <button
+                            onClick={handleSelectAllMatching}
+                            className="font-bold underline hover:text-blue-900"
+                        >
+                            Select all {data?.total} products matching current filter
+                        </button>
+                    </div>
+                )
+            }
+
+            {
+                selectAllMatching && (
+                    <div className="mt-4 p-3 bg-blue-50 text-blue-700 text-sm rounded-lg flex items-center justify-center gap-2">
+                        <span>All {data?.total} products are selected.</span>
+                        <button
+                            onClick={() => { setSelectAllMatching(false); setSelectedIds(new Set()); }}
+                            className="font-bold underline hover:text-blue-900"
+                        >
+                            Clear selection
+                        </button>
+                    </div>
+                )
+            }
 
             {/* Products Table */}
             <div className="mt-6">
@@ -308,9 +364,13 @@ const Products = () => {
                     onToggleSelect={handleToggleSelect}
                     onToggleSelectAll={handleToggleSelectAllPage}
                     isAllSelected={selectAllMatching}
+                    onEdit={(product) => {
+                        setSelectedProduct(product);
+                        setIsModalOpen(true);
+                    }}
                 />
             </div>
-        </div>
+        </div >
     );
 };
 

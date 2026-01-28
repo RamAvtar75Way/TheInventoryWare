@@ -45,7 +45,6 @@ const Sidebar = ({ isOpen = false, onClose }: SidebarProps) => {
 
     return (
         <>
-            {/* Mobile Overlay */}
             <div
                 className={clsx(
                     "fixed inset-0 bg-black/50 z-20 transition-opacity lg:hidden",
@@ -54,7 +53,6 @@ const Sidebar = ({ isOpen = false, onClose }: SidebarProps) => {
                 onClick={onClose}
             />
 
-            {/* Sidebar */}
             <aside className={clsx(
                 "w-64 bg-white border-r border-gray-200 h-screen flex flex-col fixed left-0 top-0 overflow-y-auto z-30 transition-transform duration-300 lg:translate-x-0 lg:static",
                 isOpen ? "translate-x-0" : "-translate-x-full"
@@ -69,7 +67,6 @@ const Sidebar = ({ isOpen = false, onClose }: SidebarProps) => {
                 </div>
 
                 <nav className="flex-1 px-4 space-y-1">
-                    {/* ... search and nav items ... */}
                     <div className="mb-4">
                         <div className="relative mb-6">
                             <input

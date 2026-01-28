@@ -11,7 +11,6 @@ interface MetricCardProps {
 }
 
 const MetricCard = ({ title, value, change, trend, data }: MetricCardProps) => {
-    // Convert number[] to object[] for recharts if it expects objects
     const chartData = data?.map(d => ({ value: d })) || [];
     const isPositive = trend === 'up';
 

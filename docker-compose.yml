@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  inventory-web:
+    build: .
+    ports:
+      - "3000:80"
+    container_name: inventory-web
+    restart: always

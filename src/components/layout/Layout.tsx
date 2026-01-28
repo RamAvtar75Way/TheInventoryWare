@@ -12,7 +12,6 @@ const Layout = () => {
 
             <div className="flex-1 flex flex-col h-full lg:ml-6 relative z-0 transition-all duration-300">
                 <main className="flex-1 overflow-y-auto p-4 md:p-8">
-                    {/* Mobile Header Toggle */}
                     <div className="lg:hidden flex items-center mb-6">
                         <button
                             onClick={() => setIsSidebarOpen(true)}

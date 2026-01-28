@@ -11,7 +11,6 @@ interface AuthState {
     token: string | null;
 }
 
-// Check local storage for initial state
 const token = localStorage.getItem('token');
 const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
 

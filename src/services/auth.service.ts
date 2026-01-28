@@ -29,7 +29,7 @@ const getUsers = (): StoredUser[] => {
 
 export const authService = {
     login: async (data: LoginInput): Promise<AuthResponse> => {
-        await new Promise((resolve) => setTimeout(resolve, 800)); // Simulate network delay
+        await new Promise((resolve) => setTimeout(resolve, 800));
 
         const users = getUsers();
         const user = users.find((u) => u.email === data.email && u.password === data.password);
@@ -62,7 +62,7 @@ export const authService = {
             email: data.email,
             name: data.name,
             password: data.password,
-            role: 'user', // Default role
+            role: 'user', 
         };
 
         users.push(newUser);

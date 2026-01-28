@@ -23,10 +23,4 @@ const ContentCard = ({ title, action, children, className = '' }: ContentCardPro
     );
 };
 
-// Note: If 'title' is absent, we assume the child needs full control (like a table with no padding), 
-// but for standard cards we want padding. 
-// Actually, let's make padding optional or default based on usage. 
-// For tables, usually we want the container but no padding on the body.
-// Let's refine this: standard 'box' style.
-
 export default ContentCard;
