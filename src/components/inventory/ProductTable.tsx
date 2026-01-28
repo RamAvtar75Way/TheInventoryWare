@@ -1,5 +1,4 @@
 import { Edit2, Trash2, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
-import toast from 'react-hot-toast';
 import Button from '../ui/Button';
 import type { Product } from '../../services/mockData';
 
@@ -14,6 +13,7 @@ interface Props {
     onToggleSelectAll?: () => void;
     isAllSelected?: boolean;
     onEdit?: (product: Product) => void;
+    onDelete?: (id: string) => void;
 }
 
 const ProductTable = ({
@@ -26,7 +26,8 @@ const ProductTable = ({
     onToggleSelect,
     onToggleSelectAll,
     isAllSelected,
-    onEdit
+    onEdit,
+    onDelete
 }: Props) => {
     if (isLoading) {
         return <div className="p-10 text-center text-gray-500">Loading inventory...</div>;
@@ -116,7 +117,7 @@ const ProductTable = ({
                                             <Button
                                                 variant="ghost"
                                                 size="xs"
-                                                onClick={() => toast.error(`Deleted ${product.name}`)}
+                                                onClick={() => onDelete?.(product.id)}
                                                 className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
                                             >
                                                 <Trash2 className="w-4 h-4" />

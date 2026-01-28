@@ -92,5 +92,10 @@ export const inventoryService = {
         await new Promise(resolve => setTimeout(resolve, 800)); // Simulate write delay
         localProducts = localProducts.map(p => p.id === product.id ? product : p);
         return product;
+    },
+
+    deleteProduct: async (id: string): Promise<void> => {
+        await new Promise(resolve => setTimeout(resolve, 600));
+        localProducts = localProducts.filter(p => p.id !== id);
     }
 };

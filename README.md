@@ -1,73 +1,130 @@
-# React + TypeScript + Vite
+# TheInventoryWare - Modern Inventory Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive, responsive, and modern inventory management dashboard built with React, TypeScript, and Tailwind CSS. This system allows businesses to track stock, manage warehouses, view analytics, and handle inventory operations efficiently.
 
-Currently, two official plugins are available:
+![Project Status](https://img.shields.io/badge/status-active-success.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+-   **Dashboard Overview**: Real-time insights into total inventory, low stock items, and warehouse distribution.
+-   **Inventory Management**:
+    -   Add, Edit, and Delete products.
+    -   Advanced filtering (category, price range, warehouse).
+    -   Search functionality.
+    -   Bulk actions and CSV Export.
+-   **Stock Monitoring**: Visual indicators for low stock and out-of-stock items with reorder suggestions.
+-   **Warehouse Management**: Filter inventory by location and view warehouse-specific metrics.
+-   **Reports & Analytics**: Interactive charts (Area, Bar) using Recharts to visualize sales and stock trends.
+-   **Authentication**: Secure login and signup flow, including Google Authentication support.
+-   **Responsive Design**: Fully optimized for Desktop, Tablet, and Mobile devices.
+-   **Dockerized**: Production-ready Docker setup with Nginx.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Type Stack
 
-## Expanding the ESLint configuration
+-   **Framework**: [React](https://reactjs.org/) (v18)
+-   **Build Tool**: [Vite](https://vitejs.dev/)
+-   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+-   **State Management**: [Redux Toolkit](https://redux-toolkit.js.org/) (Auth), [TanStack Query](https://tanstack.com/query/latest) (Server State)
+-   **Forms**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) validation
+-   **Charts**: [Recharts](https://recharts.org/)
+-   **Icons**: [Lucide React](https://lucide.dev/)
+-   **Notifications**: [React Hot Toast](https://react-hot-toast.com/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ⚙️ Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+-   Node.js (v18 or higher)
+-   npm or yarn
+-   Docker (optional, for containerized deployment)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/yourusername/inventory-dashboard.git
+    cd inventory-dashboard
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Setup**
+    Create a `.env` file in the root directory (copy from `.env.example` if available):
+    ```env
+    VITE_API_URL=http://localhost:3000/api
+    VITE_GOOGLE_CLIENT_ID=your-google-client-id
+    ```
+
+4.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## 🐳 Docker Setup
+
+This project includes a multi-stage Docker build optimized for production.
+
+### Build and Run with Docker Compose
+
+1.  **Build and Start**
+    ```bash
+    docker-compose up -d --build
+    ```
+    The application will be available at [http://localhost:3000](http://localhost:3000).
+
+2.  **Stop Containers**
+    ```bash
+    docker-compose down
+    ```
+
+### Manual Docker Build
+
+1.  **Build Image**
+    ```bash
+    docker build -t inventory-web .
+    ```
+
+2.  **Run Container**
+    ```bash
+    docker run -p 3000:80 inventory-web
+    ```
+
+## 📂 Project Structure
+
+```
+src/
+├── components/         # Reusable UI components
+│   ├── auth/          # Login/Signup forms & layouts
+│   ├── dashboard/     # Dashboard widgets & cards
+│   ├── inventory/     # Product tables, filters, forms
+│   ├── layout/        # Sidebar, Header, Layout wrappers
+│   ├── ui/            # Generic UI elements (Button, Modal, Input)
+├── hooks/             # Custom React hooks (useInventory, useAuth)
+├── pages/             # Route pages (Dashboard, Products, Reports)
+├── services/          # API services & mock data
+├── store/             # Redux store slices
+├── styles/            # Global styles & variants
+├── types/             # TypeScript interfaces
+└── App.tsx            # Main application entry
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📜 Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+-   `npm run dev`: Start development server.
+-   `npm run build`: Build for production.
+-   `npm run lint`: Run ESLint.
+-   `npm run preview`: Preview production build locally.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🤝 Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request.
+
+## 📄 License
+
+This project is licensed under the MIT License.

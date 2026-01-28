@@ -4,6 +4,7 @@ import Header from '../../components/layout/Header';
 import ProductTable from '../../components/inventory/ProductTable';
 import { Plus, Search, Filter, Smartphone, Shirt, Home, Car, Sparkles, Dumbbell, Layers, Download } from 'lucide-react';
 import { useProducts } from '../../hooks/inventory/useInventory';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Select, { components, type OptionProps, type SingleValueProps, type GroupBase, type SingleValue } from 'react-select';
 import { inventoryService } from '../../services/inventory.service';
 import Button from '../../components/ui/Button';
@@ -11,6 +12,7 @@ import Modal from '../../components/ui/Modal';
 import ProductForm from '../../components/inventory/ProductForm';
 import FilterPanel from '../../components/inventory/FilterPanel';
 import type { Product } from '../../services/mockData';
+import toast from 'react-hot-toast';
 
 interface CategoryOptionType {
     value: string;
@@ -53,12 +55,42 @@ const CATEGORY_OPTIONS: CategoryOptionType[] = [
 ];
 
 const Products = () => {
+    const queryClient = useQueryClient();
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [advancedFilters, setAdvancedFilters] = useState<{ minPrice?: number; maxPrice?: number; warehouse?: string }>({});
+
+    // Delete State
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [productToDelete, setProductToDelete] = useState<string | null>(null);
+
+    // Delete Mutation
+    const deleteMutation = useMutation({
+        mutationFn: inventoryService.deleteProduct,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            toast.success('Product deleted successfully');
+            setIsDeleteModalOpen(false);
+            setProductToDelete(null);
+        },
+        onError: () => {
+            toast.error('Failed to delete product');
+        }
+    });
+
+    const handleDelete = (id: string) => {
+        setProductToDelete(id);
+        setIsDeleteModalOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (productToDelete) {
+            deleteMutation.mutate(productToDelete);
+        }
+    };
 
     // Store the full option object for react-select, initialize with 'All'
     const [categoryOption, setCategoryOption] = useState<CategoryOptionType>(CATEGORY_OPTIONS[0]);
@@ -368,8 +400,43 @@ const Products = () => {
                         setSelectedProduct(product);
                         setIsModalOpen(true);
                     }}
+                    onDelete={handleDelete}
                 />
             </div>
+
+            {/* Delete Confirmation Modal */}
+            <Modal
+                isOpen={isDeleteModalOpen}
+                onClose={() => {
+                    setIsDeleteModalOpen(false);
+                    setProductToDelete(null);
+                }}
+                title="Confirm Deletion"
+            >
+                <div className="space-y-4">
+                    <p className="text-gray-600">
+                        Are you sure you want to delete this product? This action cannot be undone.
+                    </p>
+                    <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                        <Button
+                            variant="outline"
+                            onClick={() => {
+                                setIsDeleteModalOpen(false);
+                                setProductToDelete(null);
+                            }}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={confirmDelete}
+                            isLoading={deleteMutation.isPending}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Delete Product
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
         </div >
     );
 };
