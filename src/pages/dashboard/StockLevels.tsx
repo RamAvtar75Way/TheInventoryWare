@@ -4,6 +4,7 @@ import { useProducts } from '../../hooks/inventory/useInventory';
 import { AlertTriangle, TrendingUp, Package } from 'lucide-react';
 import StatusCard from '../../components/dashboard/StatusCard';
 import ContentCard from '../../components/dashboard/ContentCard';
+import Button from '../../components/ui/Button';
 
 const StockLevels = () => {
     // Fetch only low/out of stock items for this view
@@ -85,12 +86,13 @@ const StockLevels = () => {
                                             <td className="p-4 text-sm text-gray-600">{item.reorderLevel}</td>
                                             <td className="p-4 text-sm text-primary font-medium">+{item.reorderLevel * 2 - item.quantity}</td>
                                             <td className="p-4">
-                                                <button
+                                                <Button
+                                                    size="xs" // Need to add XS or just use sm with override
+                                                    className="h-7 text-xs px-3"
                                                     onClick={() => toast.success(`Reorder placed for ${item.name}`)}
-                                                    className="px-3 py-1 bg-primary text-white text-xs font-medium rounded hover:bg-primary-hover"
                                                 >
                                                     Reorder
-                                                </button>
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}

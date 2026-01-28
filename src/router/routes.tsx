@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
                         element: <Products />,
                     },
                     {
-                        path: '/products', // Keep for backward compatibility if needed, or redirect
+                        path: '/products',
                         element: <Navigate to="/inventory" replace />,
                     },
                     {

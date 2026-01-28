@@ -27,7 +27,7 @@ const Landing = () => {
                 </div>
                 <Link
                     to="/login"
-                    className="px-8 py-3 bg-[#6455c2] text-white rounded-full font-medium hover:bg-[#5243b0] transition-all shadow-lg hover:shadow-xl flex items-center gap-2 text-lg"
+                    className="px-8 py-3 bg-primary text-white rounded-full font-medium hover:bg-primary-hover transition-all shadow-lg hover:shadow-xl flex items-center gap-2 text-lg"
                 >
                     Sign in
                     <ArrowRightIcon className="text-white" />
@@ -45,7 +45,7 @@ const Landing = () => {
                     <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-[#000000] mb-4 leading-tight">
                         Technology doesn't have to feel like a different language
                     </h1>
-                    <p className="text-lg md:text-xl text-[#6455c2] font-medium max-w-4xl mx-auto">
+                    <p className="text-lg md:text-xl text-primary font-medium max-w-4xl mx-auto">
                         Simplified inventory management to drive business growth and strategically scale operations
                     </p>
                 </div>
@@ -55,25 +55,25 @@ const Landing = () => {
                     {/* Left: Features Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
                         <FeatureCard
-                            icon={<InventoryIcon className="w-10 h-10 text-[#6455c2]" />}
+                            icon={<InventoryIcon className="w-10 h-10 text-primary" />}
                             title="Inventory Management"
                             description="Easily add and organize products, categories, and suppliers to keep your inventory structured and accessible."
                         />
 
                         <FeatureCard
-                            icon={<StockLevel className="w-10 h-10 text-[#6455c2]" />}
+                            icon={<StockLevel className="w-10 h-10 text-primary" />}
                             title="Stock Level Tracking"
                             description="Monitor real-time stock levels and get alerts when items are running low to prevent stockouts."
                         />
 
                         <FeatureCard
-                            icon={<Report className="w-10 h-10 text-[#6455c2]" />}
+                            icon={<Report className="w-10 h-10 text-primary" />}
                             title="Detailed Reporting"
                             description="Gain actionable insights with automated reports on sales performance, inventory valuation, and trends."
                         />
 
                         <FeatureCard
-                            icon={<Businesses className="w-10 h-10 text-[#6455c2]" />}
+                            icon={<Businesses className="w-10 h-10 text-primary" />}
                             title="Small Business Optimized"
                             description="A user-friendly dashboard tailored for small business needs, removing the complexity of enterprise tools."
                         />
@@ -90,12 +90,12 @@ const Landing = () => {
                 </div>
             </main>
 
-            <footer className="absolute bottom-4 left-36 transform -translate-x-1/2 text-center text-sm text-[#6455c2] font-medium z-20">
+            <footer className="absolute bottom-4 hidden lg:block left-36 transform -translate-x-1/2 text-center text-sm text-primary font-medium z-20">
                 <CircularText
                     text="© THEINVETORYWARE * 2026 * "
                     onHover="speedUp"
                     spinDuration={20}
-                    className="text-[#6455c2]"
+                    className="text-primary"
                 />
             </footer>
         </div>

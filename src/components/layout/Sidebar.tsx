@@ -59,9 +59,9 @@ const Sidebar = ({ isOpen = false, onClose }: SidebarProps) => {
                 "w-64 bg-white border-r border-gray-200 h-screen flex flex-col fixed left-0 top-0 overflow-y-auto z-30 transition-transform duration-300 lg:translate-x-0 lg:static",
                 isOpen ? "translate-x-0" : "-translate-x-full"
             )}>
-                <div className="p-4 flex items-center justify-between">
+                <div className="p-4 flex items-center justify-between m-auto">
                     <h1 className="text-xl font-bold flex items-center gap-2">
-                        <img src="/logo1.png" alt="TheInventoryWare Logo" className="h-16 md:h-20" />
+                        <img src="/logo1.png" alt="TheInventoryWare Logo" className="h-8 md:h-12" />
                     </h1>
                     <button onClick={onClose} className="lg:hidden text-gray-500 hover:text-gray-700">
                         <X className="w-5 h-5" />

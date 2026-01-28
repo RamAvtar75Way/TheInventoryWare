@@ -10,23 +10,35 @@ const GoogleLoginBtn = () => {
     const dispatch = useDispatch();
 
     const handleGoogleLogin = useGoogleLogin({
-        onSuccess: (tokenResponse) => {
-            // In a real app, you'd send this token to your backend
-            console.log("Google Token:", tokenResponse.access_token);
+        onSuccess: async (tokenResponse) => {
+            try {
+                // Fetch user info from Google
+                const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                });
 
-            // Simulating backend verification
-            dispatch(setCredentials({
-                user: {
-                    id: 'google-user-1',
-                    email: 'google@example.com',
-                    name: 'Google User',
-                    role: 'user'
-                },
-                token: tokenResponse.access_token
-            }));
+                if (!userInfoResponse.ok) {
+                    throw new Error('Failed to fetch user info');
+                }
 
-            toast.success('Signed in with Google');
-            navigate('/dashboard');
+                const userInfo = await userInfoResponse.json();
+
+                dispatch(setCredentials({
+                    user: {
+                        id: userInfo.sub,
+                        email: userInfo.email,
+                        name: userInfo.name,
+                        role: 'user'
+                    },
+                    token: tokenResponse.access_token
+                }));
+
+                toast.success(`Welcome, ${userInfo.given_name || 'User'}!`);
+                navigate('/dashboard');
+            } catch (error) {
+                console.error('Google User Info Error:', error);
+                toast.error('Failed to get user details');
+            }
         },
         onError: () => {
             toast.error('Google Sign In Failed');

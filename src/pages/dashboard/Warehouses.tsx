@@ -4,6 +4,7 @@ import { useProducts } from '../../hooks/inventory/useInventory';
 import { Warehouse, MapPin, Download } from 'lucide-react';
 import ProductTable from '../../components/inventory/ProductTable';
 import { inventoryService } from '../../services/inventory.service';
+import Button from '../../components/ui/Button';
 
 const WAREHOUSES = ['New York Hub', 'Los Angeles Depot', 'Chicago Center', 'Houston Warehouse', 'Miami Storage'];
 
@@ -158,14 +159,13 @@ const Warehouses = () => {
                                 {totalSelected} Selected
                             </span>
                         )}
-                        <button
+                        <Button
                             onClick={handleExport}
                             disabled={totalSelected === 0}
-                            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            leftIcon={<Download className="w-4 h-4" />}
                         >
-                            <Download className="w-4 h-4" />
                             {selectAllMatching ? 'Bulk Export All' : 'Export Selected'}
-                        </button>
+                        </Button>
                     </div>
                 </div>
 

@@ -3,6 +3,8 @@ import ContentCard from '../../components/dashboard/ContentCard';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import { Download, Share2 } from 'lucide-react';
 import { useProducts } from '../../hooks/inventory/useInventory';
+import toast from 'react-hot-toast';
+import Button from '../../components/ui/Button';
 
 // Mock Data for Charts
 const SALES_DATA = [
@@ -43,17 +45,19 @@ const Reports = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <Header title="Reports & Analytics" />
                 <div className="flex gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2 border border-primary text-primary font-medium rounded-lg hover:bg-purple-50 bg-white transition-colors">
-                        <Share2 className="w-4 h-4" />
-                        Export PDF
-                    </button>
-                    <button
-                        onClick={handleExport}
-                        className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover shadow-sm"
+                    <Button
+                        variant="outline"
+                        onClick={() => toast.success('Downloading PDF report...')}
+                        leftIcon={<Share2 className="w-4 h-4" />}
                     >
-                        <Download className="w-4 h-4" />
+                        Export PDF
+                    </Button>
+                    <Button
+                        onClick={handleExport}
+                        leftIcon={<Download className="w-4 h-4" />}
+                    >
                         Export CSV
-                    </button>
+                    </Button>
                 </div>
             </div>
 
@@ -98,7 +102,7 @@ const Reports = () => {
 
             <ContentCard
                 title="Recent Transactions"
-                action={<button className="text-primary text-sm font-medium hover:underline">View All</button>}
+                action={<Button variant="ghost" size="sm" className="text-primary hover:text-primary-hover hover:scale-105 transition-transform p-0 h-auto">View All</Button>}
             >
                 <div className="overflow-x-auto -mx-6 -mb-6">
                     <table className="w-full text-left">

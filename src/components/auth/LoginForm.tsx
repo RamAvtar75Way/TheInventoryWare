@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { loginSchema, type LoginInput } from '../../schemas/auth.schema';
 import { useLogin } from '../../hooks/auth/useLogin';
 import GoogleLoginBtn from './GoogleLoginBtn';
+import Button from '../ui/Button';
 
 export default function LoginForm() {
     const {
@@ -34,7 +35,7 @@ export default function LoginForm() {
                         {...register('email')}
                         type="email"
                         placeholder="Enter your email"
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#6455c2] focus:border-transparent outline-none transition-all"
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                     />
                     {errors.email && (
                         <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -47,7 +48,7 @@ export default function LoginForm() {
                         {...register('password')}
                         type="password"
                         placeholder="••••••••"
-                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#6455c2] focus:border-transparent outline-none transition-all"
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                     />
                     {errors.password && (
                         <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
@@ -56,27 +57,29 @@ export default function LoginForm() {
 
                 <div className="flex items-center justify-between">
                     <label className="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-[#6455c2] focus:ring-[#6455c2]" />
+                        <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" />
                         <span className="text-sm text-gray-600">Remember for 30 days</span>
                     </label>
-                    <a href="#" className="text-sm font-medium text-[#6455c2] hover:text-[#5243b0]">
+                    <a href="#" className="text-sm font-medium text-primary hover:text-primary-hover">
                         Forgot password
                     </a>
                 </div>
 
-                <button
+                <Button
                     type="submit"
+                    isLoading={isPending}
+                    className="w-full"
+                    size="md"
                     disabled={isPending}
-                    className="w-full bg-[#6455c2] text-white font-medium py-2.5 rounded-lg hover:bg-[#5243b0] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {isPending ? 'Signing in...' : 'Sign in'}
-                </button>
+                    Sign in
+                </Button>
 
                 <GoogleLoginBtn />
 
                 <p className="text-center text-sm text-gray-600 mt-6">
                     Don't have an account?{' '}
-                    <Link to="/signup" className="font-medium text-[#6455c2] hover:text-[#5243b0]">
+                    <Link to="/signup" className="font-medium text-primary hover:text-primary-hover">
                         Sign up
                     </Link>
                 </p>
