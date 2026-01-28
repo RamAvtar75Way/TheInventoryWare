@@ -109,7 +109,7 @@ const Reports = () => {
                         <thead className="bg-gray-50 border-b border-gray-100">
                             <tr>
                                 {['Transaction ID', 'Date', 'Product', 'Status', 'Quantity', 'Amount'].map(header => (
-                                    <th key={header} className="p-4 text-xs font-medium text-gray-500 uppercase">
+                                    <th key={header} className="p-4 text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                                         {header}
                                     </th>
                                 ))}
@@ -118,14 +118,14 @@ const Reports = () => {
                         <tbody className="divide-y divide-gray-100">
                             {[1, 2, 3, 4, 5].map((i) => (
                                 <tr key={i} className="hover:bg-gray-50">
-                                    <td className="p-4 text-sm font-medium text-gray-900">#TRX-{1000 + i}</td>
-                                    <td className="p-4 text-sm text-gray-500">Oct 24, 2024</td>
-                                    <td className="p-4 text-sm text-gray-900">Wireless Headphones</td>
-                                    <td className="p-4">
+                                    <td className="p-4 text-sm font-medium text-gray-900 whitespace-nowrap">#TRX-{1000 + i}</td>
+                                    <td className="p-4 text-sm text-gray-500 whitespace-nowrap">Oct 24, 2024</td>
+                                    <td className="p-4 text-sm text-gray-900 whitespace-nowrap">Wireless Headphones</td>
+                                    <td className="p-4 whitespace-nowrap">
                                         <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">Completed</span>
                                     </td>
-                                    <td className="p-4 text-sm text-gray-500">24</td>
-                                    <td className="p-4 text-sm font-medium text-gray-900">$1,200.00</td>
+                                    <td className="p-4 text-sm text-gray-500 whitespace-nowrap">24</td>
+                                    <td className="p-4 text-sm font-medium text-gray-900 whitespace-nowrap">$1,200.00</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -63,7 +63,7 @@ const ProductTable = ({
                                 />
                             </th>
                             {['Product', 'SKU', 'Category', 'Warehouse', 'Price', 'Stock', 'Status', 'Actions'].map((header) => (
-                                <th key={header} className="p-4 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th key={header} className="p-4 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     {header}
                                 </th>
                             ))}
@@ -82,17 +82,17 @@ const ProductTable = ({
                                             onChange={() => onToggleSelect && onToggleSelect(product.id)}
                                         />
                                     </td>
-                                    <td className="p-4">
+                                    <td className="p-4 whitespace-nowrap">
                                         <div className="flex items-center gap-3">
                                             <img src={product.image} alt={product.name} className="w-8 h-8 rounded-full bg-gray-100" />
                                             <span className="font-medium text-gray-900">{product.name}</span>
                                         </div>
                                     </td>
-                                    <td className="p-4 text-sm text-gray-600">{product.sku}</td>
-                                    <td className="p-4 text-sm text-primary font-medium underline cursor-pointer">{product.category}</td>
-                                    <td className="p-4 text-sm text-gray-600">{product.warehouse}</td>
-                                    <td className="p-4 text-sm text-gray-600">${product.price}</td>
-                                    <td className="p-4 text-sm text-gray-600">
+                                    <td className="p-4 text-sm text-gray-600 whitespace-nowrap">{product.sku}</td>
+                                    <td className="p-4 text-sm text-primary font-medium underline cursor-pointer whitespace-nowrap">{product.category}</td>
+                                    <td className="p-4 text-sm text-gray-600 whitespace-nowrap">{product.warehouse}</td>
+                                    <td className="p-4 text-sm text-gray-600 whitespace-nowrap">${product.price}</td>
+                                    <td className="p-4 text-sm text-gray-600 whitespace-nowrap">
                                         <div className="flex gap-2 items-center">
                                             <span className={product.quantity <= product.reorderLevel ? 'text-red-600 font-bold' : ''}>
                                                 {product.quantity}
